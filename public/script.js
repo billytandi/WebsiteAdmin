@@ -46,6 +46,8 @@ document.getElementById('employeeForm').addEventListener('submit', async (e) => 
       employeeID: employeeID,
       phone: phone,
       departement: departement,
+      division: division,
+      office: office
     });
 
     alert("Data karyawan berhasil ditambahkan!");
@@ -62,7 +64,6 @@ document.getElementById('employeeForm').addEventListener('submit', async (e) => 
                         <td>${office}</td>
                       </tr>`;
     employeeTable.innerHTML += newRow;
-
     // Reset form
     document.getElementById('employeeForm').reset();
 
@@ -130,7 +131,9 @@ async function fetchAttendances() {
       formattedDate: '-',
       formattedClock: '-',
       location: '-',
-      keterangan: '-'
+      keterangan: 'Belum Hadir',
+      departement: data.departement,
+      division: data.division,
     };
 
     // Jika karyawan sudah absen, update statusnya
@@ -183,7 +186,8 @@ async function fetchAttendances() {
                     <td>${employee.formattedClock}</td>
                     <td>${employee.location}</td>
                     <td>${employee.keterangan}</td>
-
+                    <td>${employee.departement}</td>
+                    <td>${employee.division}</td>
                   </tr>`;
     attendanceTable.innerHTML += row;
   });
