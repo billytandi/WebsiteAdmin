@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Absensi</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+  <!-- Dashboard Page -->
+  <div id="dashboard">
+    <h1>Dashboard Internship</h1>
+    <div class="widgets">
+      <div class="widget" id="hadir">Hadir: <span id="hadirCount">1</span></div>
+      <div class="widget" id="izin">Izin: <span id="izinCount">0</span></div>
+      <div class="widget" id="cuti">Cuti: <span id="cutiCount">0</span></div>
+      <div class="widget" id="sakit">Sakit: <span id="sakitCount">0</span></div>
+      <div class="widget" id="alpha">Alpha: <span id="alphaCount">0</span></div>
+    </div>
+
+    <h2>Daftar Absensi Hari Ini</h2>
+    <input type="text" id="filterPresent" placeholder="Filter Nama">
+    <table id="attendanceTable">
+      <thead>
+        <tr>
+          <th>ID Karyawan</th>
+          <th>Nama</th>
+          <th>Tanggal</th>
+          <th>Jam Absen</th>
+          <th>Lokasi Absen</th>
+          <th>Keterangan</th>
+        </tr>
+      </thead>
+      <tbody id="attendanceData"></tbody>
+    </table>
+  </div>
+
+  <!-- Data Karyawan Page -->
+  <div id="dataKaryawan">
+    <h1>Data Internship</h1>
+    <button id="addEmployeeBtn">Tambah Data</button>
+    <br></br>
+    <input type="text" id="filterName" placeholder="Filter Nama">
+
+    <table id="employeeTable">
+      <thead>
+        <tr>
+          <th>Nama</th>
+          <th>Email</th>
+          <th>ID Karyawan</th>
+          <th>No. Telpon</th>
+          <th>Departemen</th>
+          <th>Divisi</th>
+          <th>Lokasi Kantor</th>
+        </tr>
+      </thead>
+      <tbody id="employeeData"></tbody>
+    </table>
+  </div>
+
+  <!-- Pop-up Form Tambah Karyawan -->
+<div id="addEmployeeForm" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Tambah Karyawan Baru</h2>
+    <form id="employeeForm">
+      <label>Nama</label><input type="text" id="employeeName" required>
+      <label>Email</label><input type="email" id="employeeEmail" required>
+      <label>Password</label><input type="password" id="employeePassword" required>
+      <label>ID Karyawan</label><input type="text" id="employeeID" required>
+      <label>No. Telpon</label><input type="text" id="employeePhone" required>
+      <label>Departemen</label><input type="text" id="employeeDepartement" required>
+      <label>Divisi</label><input type="text" id="employeeDivision" required>
+      <label>Lokasi Kantor</label><input type="text" id="employeeOffice" required>
+      <button type="submit">Tambah</button>
+    </form>
+  </div>
+</div>
+
+<script type= "module" src="script.js"></script>
+
+</body>
+</html>
