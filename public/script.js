@@ -56,9 +56,10 @@ document.getElementById('employeeForm').addEventListener('submit', async (e) => 
     // Tambahkan data ke tabel secara langsung tanpa refresh
     const employeeTable = document.getElementById('employeeData');
     const newRow = `<tr>
+                            <td>${employeeID}</td>
+
                         <td>${name}</td>
                         <td>${email}</td>
-                        <td>${employeeID}</td>
                         <td>${phone}</td>
                         <td>${departement}</td>
                         <td>${division}</td>
@@ -87,7 +88,7 @@ async function fetchAttendances() {
 
   let hadirCount = 0;
   let izinCount = 0;
-  let cutiCount = 0;
+  let telatCount = 0;
   let sakitCount = 0;
   let alphaCount = 0;
 
@@ -141,38 +142,55 @@ async function fetchAttendances() {
     // Jika karyawan sudah absen, update statusnya
     const attendance = attendanceMap[employee.uid];
     if (attendance) {
-      const qrCodeData = JSON.parse(attendance.qr_code);
+      let qrCodeData;
 
+      // Check if the QR code is valid before parsing
+      if (attendance.qr_code && attendance.qr_code !== "-") {
+        try {
+          const trimmedQrCode = attendance.qr_code.trim();
+          qrCodeData = JSON.parse(trimmedQrCode);
+        } catch (error) {
+          console.error("Error parsing QR code data:", error);
+          qrCodeData = {}; // Default to an empty object if parsing fails
+        }
+      } else {
+        console.warn("Invalid QR Code data. Defaulting to empty object.");
+        qrCodeData = {}; // Default to an empty object if QR code is invalid
+      }
+
+      // Set formatted date and clock
       employee.formattedDate = new Date(attendance.timestamp.seconds * 1000).toLocaleDateString();
       employee.formattedClock = new Date(attendance.timestamp.seconds * 1000).toLocaleTimeString();
-      employee.location = qrCodeData.location;
-      employee.keterangan = qrCodeData.keterangan || '-';
 
-      if (qrCodeData.keterangan === 'Izin') {
+      // Use the location and keterangan from qrCodeData, defaulting to '-' if not present
+      employee.location = qrCodeData.location || 'Tidak Hadir'; // Default to '-' if location is not present
+      employee.keterangan = attendance.status; // Default to '-' if keterangan is not present
+
+      // Determine the employee status based on keterangan
+      if (attendance.status === 'Izin') {
         employee.status = 'Izin';
         izinCount++;
-      } else if (qrCodeData.keterangan === 'Cuti') {
-        employee.status = 'Cuti';
-        cutiCount++;
-      } else if (qrCodeData.keterangan === 'Sakit') {
+      } else if (attendance.status === 'Telat') {
+        employee.status = 'Telat';
+        telatCount++;
+      } else if (attendance.status === 'Sakit') {
         employee.status = 'Sakit';
         sakitCount++;
       } else {
-        employee.status = 'Hadir';
+        employee.status = 'Hadir'; // Default status
         hadirCount++;
       }
     } else {
       // Jika tidak ada data absensi untuk karyawan, status tetap 'Alpha'
       alphaCount++;
     }
-
     employeeData.push(employee);
   });
 
   // Update jumlah di widget
   document.getElementById('hadirCount').textContent = hadirCount;
   document.getElementById('izinCount').textContent = izinCount;
-  document.getElementById('cutiCount').textContent = cutiCount;
+  document.getElementById('telatCount').textContent = telatCount;
   document.getElementById('sakitCount').textContent = sakitCount;
   document.getElementById('alphaCount').textContent = alphaCount;
 
@@ -221,12 +239,13 @@ async function fetchEmployees() {
   querySnapshot.forEach((doc) => {
     const data = doc.data();
     const row = `<tr>
+                    <td>${data.employeeID}</td>
                     <td>${data.name}</td>
                     <td>${data.email}</td>
-                    <td>${data.employeeID}</td>
                     <td>${data.phone}</td>
                     <td>${data.departement}</td>
                     <td>${data.division}</td>
+                    <td>${data.position}</td>
                     <td>${data.office}</td>
                   </tr>`;
     employeeTable.innerHTML += row;
@@ -259,7 +278,7 @@ window.addEventListener('keyup', (e) => {
 
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i];
-      const nameCell = row.getElementsByTagName('td')[0];
+      const nameCell = row.getElementsByTagName('td')[1];
       const name = nameCell.textContent.toLowerCase();
 
       if (name.includes(filterValue)) {
@@ -270,6 +289,28 @@ window.addEventListener('keyup', (e) => {
     }
   }
 });
+
+window.addEventListener('keyup', (e) => {
+  if (e.target.id === 'filterPresent') {
+    const filterValue = e.target.value.toLowerCase();
+    const employeeTable = document.getElementById('attendanceData');
+    const rows = employeeTable.getElementsByTagName('tr');
+
+    for (let i = 0; i < rows.length; i++) {
+      const row = rows[i];
+      const nameCell = row.getElementsByTagName('td')[1];
+      const name = nameCell.textContent.toLowerCase();
+
+      if (name.includes(filterValue)) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    }
+  }
+});
+
+
 // Panggil fetchEmployees saat halaman dimuat
 window.onload = function () {
   fetchEmployees();
