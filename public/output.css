@@ -1,0 +1,538 @@
+*, ::before, ::after {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
+}
+
+::backdrop {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
+}
+
+.tw-bg-blue-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 64 175 / var(--tw-bg-opacity));
+}
+
+.tw-bg-blue-800\/0 {
+  background-color: rgb(30 64 175 / 0);
+}
+
+.tw-bg-blue-800\/10 {
+  background-color: rgb(30 64 175 / 0.1);
+}
+
+.tw-bg-blue-800\/100 {
+  background-color: rgb(30 64 175 / 1);
+}
+
+.tw-bg-blue-800\/15 {
+  background-color: rgb(30 64 175 / 0.15);
+}
+
+.tw-bg-blue-800\/20 {
+  background-color: rgb(30 64 175 / 0.2);
+}
+
+.tw-bg-blue-800\/25 {
+  background-color: rgb(30 64 175 / 0.25);
+}
+
+.tw-bg-blue-800\/30 {
+  background-color: rgb(30 64 175 / 0.3);
+}
+
+.tw-bg-blue-800\/35 {
+  background-color: rgb(30 64 175 / 0.35);
+}
+
+.tw-bg-blue-800\/40 {
+  background-color: rgb(30 64 175 / 0.4);
+}
+
+.tw-bg-blue-800\/45 {
+  background-color: rgb(30 64 175 / 0.45);
+}
+
+.tw-bg-blue-800\/5 {
+  background-color: rgb(30 64 175 / 0.05);
+}
+
+.tw-bg-blue-800\/50 {
+  background-color: rgb(30 64 175 / 0.5);
+}
+
+.tw-bg-blue-800\/55 {
+  background-color: rgb(30 64 175 / 0.55);
+}
+
+.tw-bg-blue-800\/60 {
+  background-color: rgb(30 64 175 / 0.6);
+}
+
+.tw-bg-blue-800\/65 {
+  background-color: rgb(30 64 175 / 0.65);
+}
+
+.tw-bg-blue-800\/70 {
+  background-color: rgb(30 64 175 / 0.7);
+}
+
+.tw-bg-blue-800\/75 {
+  background-color: rgb(30 64 175 / 0.75);
+}
+
+.tw-bg-blue-800\/80 {
+  background-color: rgb(30 64 175 / 0.8);
+}
+
+.tw-bg-blue-800\/85 {
+  background-color: rgb(30 64 175 / 0.85);
+}
+
+.tw-bg-blue-800\/90 {
+  background-color: rgb(30 64 175 / 0.9);
+}
+
+.tw-bg-blue-800\/95 {
+  background-color: rgb(30 64 175 / 0.95);
+}
+
+.tw-text-blue-800 {
+  --tw-text-opacity: 1;
+  color: rgb(30 64 175 / var(--tw-text-opacity));
+}
+
+.tw-text-blue-800\/0 {
+  color: rgb(30 64 175 / 0);
+}
+
+.tw-text-blue-800\/10 {
+  color: rgb(30 64 175 / 0.1);
+}
+
+.tw-text-blue-800\/100 {
+  color: rgb(30 64 175 / 1);
+}
+
+.tw-text-blue-800\/15 {
+  color: rgb(30 64 175 / 0.15);
+}
+
+.tw-text-blue-800\/20 {
+  color: rgb(30 64 175 / 0.2);
+}
+
+.tw-text-blue-800\/25 {
+  color: rgb(30 64 175 / 0.25);
+}
+
+.tw-text-blue-800\/30 {
+  color: rgb(30 64 175 / 0.3);
+}
+
+.tw-text-blue-800\/35 {
+  color: rgb(30 64 175 / 0.35);
+}
+
+.tw-text-blue-800\/40 {
+  color: rgb(30 64 175 / 0.4);
+}
+
+.tw-text-blue-800\/45 {
+  color: rgb(30 64 175 / 0.45);
+}
+
+.tw-text-blue-800\/5 {
+  color: rgb(30 64 175 / 0.05);
+}
+
+.tw-text-blue-800\/50 {
+  color: rgb(30 64 175 / 0.5);
+}
+
+.tw-text-blue-800\/55 {
+  color: rgb(30 64 175 / 0.55);
+}
+
+.tw-text-blue-800\/60 {
+  color: rgb(30 64 175 / 0.6);
+}
+
+.tw-text-blue-800\/65 {
+  color: rgb(30 64 175 / 0.65);
+}
+
+.tw-text-blue-800\/70 {
+  color: rgb(30 64 175 / 0.7);
+}
+
+.tw-text-blue-800\/75 {
+  color: rgb(30 64 175 / 0.75);
+}
+
+.tw-text-blue-800\/80 {
+  color: rgb(30 64 175 / 0.8);
+}
+
+.tw-text-blue-800\/85 {
+  color: rgb(30 64 175 / 0.85);
+}
+
+.tw-text-blue-800\/90 {
+  color: rgb(30 64 175 / 0.9);
+}
+
+.tw-text-blue-800\/95 {
+  color: rgb(30 64 175 / 0.95);
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  text-align: center;
+}
+
+.widgets {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.widget {
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  width: 100px;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+#addEmployeeForm {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ddd;
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.hover\:tw-bg-blue-800:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 64 175 / var(--tw-bg-opacity));
+}
+
+.hover\:tw-bg-blue-800\/0:hover {
+  background-color: rgb(30 64 175 / 0);
+}
+
+.hover\:tw-bg-blue-800\/10:hover {
+  background-color: rgb(30 64 175 / 0.1);
+}
+
+.hover\:tw-bg-blue-800\/100:hover {
+  background-color: rgb(30 64 175 / 1);
+}
+
+.hover\:tw-bg-blue-800\/15:hover {
+  background-color: rgb(30 64 175 / 0.15);
+}
+
+.hover\:tw-bg-blue-800\/20:hover {
+  background-color: rgb(30 64 175 / 0.2);
+}
+
+.hover\:tw-bg-blue-800\/25:hover {
+  background-color: rgb(30 64 175 / 0.25);
+}
+
+.hover\:tw-bg-blue-800\/30:hover {
+  background-color: rgb(30 64 175 / 0.3);
+}
+
+.hover\:tw-bg-blue-800\/35:hover {
+  background-color: rgb(30 64 175 / 0.35);
+}
+
+.hover\:tw-bg-blue-800\/40:hover {
+  background-color: rgb(30 64 175 / 0.4);
+}
+
+.hover\:tw-bg-blue-800\/45:hover {
+  background-color: rgb(30 64 175 / 0.45);
+}
+
+.hover\:tw-bg-blue-800\/5:hover {
+  background-color: rgb(30 64 175 / 0.05);
+}
+
+.hover\:tw-bg-blue-800\/50:hover {
+  background-color: rgb(30 64 175 / 0.5);
+}
+
+.hover\:tw-bg-blue-800\/55:hover {
+  background-color: rgb(30 64 175 / 0.55);
+}
+
+.hover\:tw-bg-blue-800\/60:hover {
+  background-color: rgb(30 64 175 / 0.6);
+}
+
+.hover\:tw-bg-blue-800\/65:hover {
+  background-color: rgb(30 64 175 / 0.65);
+}
+
+.hover\:tw-bg-blue-800\/70:hover {
+  background-color: rgb(30 64 175 / 0.7);
+}
+
+.hover\:tw-bg-blue-800\/75:hover {
+  background-color: rgb(30 64 175 / 0.75);
+}
+
+.hover\:tw-bg-blue-800\/80:hover {
+  background-color: rgb(30 64 175 / 0.8);
+}
+
+.hover\:tw-bg-blue-800\/85:hover {
+  background-color: rgb(30 64 175 / 0.85);
+}
+
+.hover\:tw-bg-blue-800\/90:hover {
+  background-color: rgb(30 64 175 / 0.9);
+}
+
+.hover\:tw-bg-blue-800\/95:hover {
+  background-color: rgb(30 64 175 / 0.95);
+}
+
+.hover\:tw-text-blue-800:hover {
+  --tw-text-opacity: 1;
+  color: rgb(30 64 175 / var(--tw-text-opacity));
+}
+
+.hover\:tw-text-blue-800\/0:hover {
+  color: rgb(30 64 175 / 0);
+}
+
+.hover\:tw-text-blue-800\/10:hover {
+  color: rgb(30 64 175 / 0.1);
+}
+
+.hover\:tw-text-blue-800\/100:hover {
+  color: rgb(30 64 175 / 1);
+}
+
+.hover\:tw-text-blue-800\/15:hover {
+  color: rgb(30 64 175 / 0.15);
+}
+
+.hover\:tw-text-blue-800\/20:hover {
+  color: rgb(30 64 175 / 0.2);
+}
+
+.hover\:tw-text-blue-800\/25:hover {
+  color: rgb(30 64 175 / 0.25);
+}
+
+.hover\:tw-text-blue-800\/30:hover {
+  color: rgb(30 64 175 / 0.3);
+}
+
+.hover\:tw-text-blue-800\/35:hover {
+  color: rgb(30 64 175 / 0.35);
+}
+
+.hover\:tw-text-blue-800\/40:hover {
+  color: rgb(30 64 175 / 0.4);
+}
+
+.hover\:tw-text-blue-800\/45:hover {
+  color: rgb(30 64 175 / 0.45);
+}
+
+.hover\:tw-text-blue-800\/5:hover {
+  color: rgb(30 64 175 / 0.05);
+}
+
+.hover\:tw-text-blue-800\/50:hover {
+  color: rgb(30 64 175 / 0.5);
+}
+
+.hover\:tw-text-blue-800\/55:hover {
+  color: rgb(30 64 175 / 0.55);
+}
+
+.hover\:tw-text-blue-800\/60:hover {
+  color: rgb(30 64 175 / 0.6);
+}
+
+.hover\:tw-text-blue-800\/65:hover {
+  color: rgb(30 64 175 / 0.65);
+}
+
+.hover\:tw-text-blue-800\/70:hover {
+  color: rgb(30 64 175 / 0.7);
+}
+
+.hover\:tw-text-blue-800\/75:hover {
+  color: rgb(30 64 175 / 0.75);
+}
+
+.hover\:tw-text-blue-800\/80:hover {
+  color: rgb(30 64 175 / 0.8);
+}
+
+.hover\:tw-text-blue-800\/85:hover {
+  color: rgb(30 64 175 / 0.85);
+}
+
+.hover\:tw-text-blue-800\/90:hover {
+  color: rgb(30 64 175 / 0.9);
+}
+
+.hover\:tw-text-blue-800\/95:hover {
+  color: rgb(30 64 175 / 0.95);
+}
