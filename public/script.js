@@ -32,6 +32,7 @@ document.getElementById('employeeForm').addEventListener('submit', async (e) => 
   const phone = document.getElementById('employeePhone').value;
   const departement = document.getElementById('employeeDepartement').value;
   const division = document.getElementById('employeeDivision').value;
+  const position = document.getElementById('employeePosition').value;
   const office = document.getElementById('employeeOffice').value;
   try {
     // Buat akun di Firebase Authentication
@@ -46,6 +47,7 @@ document.getElementById('employeeForm').addEventListener('submit', async (e) => 
       phone: phone,
       departement: departement,
       division: division,
+      position: position,
       office: office
     });
 
@@ -60,6 +62,7 @@ document.getElementById('employeeForm').addEventListener('submit', async (e) => 
                         <td>${phone}</td>
                         <td>${departement}</td>
                         <td>${division}</td>
+                        <td>${position}</td>
                         <td>${office}</td>
                       </tr>`;
     employeeTable.innerHTML += newRow;
