@@ -99,7 +99,7 @@ async function fetchAttendances() {
   // Ambil data absensi
   querySnapshot.forEach((doc) => {
     const data = doc.data();
-    const timestampInSeconds = data.timestamp.seconds;
+    const timestampInSeconds = data.checkin.seconds;
     const attendanceDate = new Date(timestampInSeconds * 1000); // Konversi timestamp ke Date
 
     // Set waktu ke 00:00:00 untuk perbandingan hanya berdasarkan tanggal
@@ -111,7 +111,7 @@ async function fetchAttendances() {
 
       // Jika sudah ada absensi untuk karyawan ini, bandingkan timestamp
       if (attendanceMap[uid]) {
-        if (data.timestamp.seconds > attendanceMap[uid].timestamp.seconds) {
+        if (data.checkin.seconds > attendanceMap[uid].checkin.seconds) {
           attendanceMap[uid] = data;
         }
       } else {
@@ -159,8 +159,8 @@ async function fetchAttendances() {
       }
 
       // Set formatted date and clock
-      employee.formattedDate = new Date(attendance.timestamp.seconds * 1000).toLocaleDateString();
-      employee.formattedClock = new Date(attendance.timestamp.seconds * 1000).toLocaleTimeString();
+      employee.formattedDate = new Date(attendance.checkin.seconds * 1000).toLocaleDateString();
+      employee.formattedClock = new Date(attendance.checkin.seconds * 1000).toLocaleTimeString();
 
       // Use the location and keterangan from qrCodeData, defaulting to '-' if not present
       employee.location = qrCodeData.location || 'Tidak Hadir'; // Default to '-' if location is not present
