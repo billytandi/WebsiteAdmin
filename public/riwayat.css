@@ -1,0 +1,22 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f1f1f1;
+}
+
+.nav-link {
+    color: #333;
+}
+
+.nav-link.active {
+    font-weight: bold;
+    color: #007bff;
+}

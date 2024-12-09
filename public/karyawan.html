@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Data Karyawan - Absensi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="karyawan.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-md-block bg-light sidebar">
+                <div class="position-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="dashboard.html">
+                                <i class="fas fa-home"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="karyawan.html">
+                                <i class="fas fa-users"></i> Karyawan
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="riwayat.html">
+                                <i class="fas fa-clock"></i> Riwayat Kehadiran
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-10 ms-sm-auto px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Data Karyawan</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+                            Tambah Karyawan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search and Filter -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <input type="text" id="filterName" class="form-control" placeholder="Cari Karyawan...">
+                    </div>
+                    <div class="col-md-6">
+                        <select id="departmentFilter" class="form-select">
+                            <option value="">Semua Departemen</option>
+                            <!-- Akan diisi secara dinamis -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Karyawan Table -->
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover" id="employeeTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>No. Telepon</th>
+                                <th>Departemen</th>
+                                <th>Divisi</th>
+                                <th>Jabatan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeeTableBody">
+                            <!-- Data karyawan akan diisi secara dinamis -->
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Karyawan -->
+    <div class="modal fade" id="addEmployeeModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Karyawan Baru</h5>
+                    <button type="button" class="btn-close " data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addEmployeeForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" id="employeeName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="employeeEmail" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" id="employeePassword" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">ID Karyawan</label>
+                                <input type="text" class="form-control" id="employeeID" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">No. Telepon</label>
+                                <input type="tel" class="form-control" id="employeePhone" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Departemen</label>
+                                <select class="form-select" id="employeeDepartement" required>
+                                    <option value="">Pilih Departemen</option>
+                                    <option value="IT">IT</option>
+                                    <option value="HR">HR</option>
+                                    <option value="Keuangan">Keuangan</option>
+                                    <option value="Marketing">Marketing</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Divisi</label>
+                                <input type="text" class="form-control" id="employeeDivision" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Jabatan</label>
+                                <input type="text" class="form-control" id="employeePosition" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Lokasi Kantor</label>
+                                <input type="text" class="form-control" id="employeeOffice" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" id="submit">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Karyawan -->
+    <div class="modal fade" id="editEmployeeModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Data Karyawan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editEmployeeForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" id="editEmployeeName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">No. Telepon</label>
+                                <input type="tel" class="form-control" id="editEmployeePhone" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Departemen</label>
+                                <select class="form-select" id="editEmployeeDepartment" required>
+                                    <option value="">Pilih Departemen</option>
+                                    <option value="IT">IT</option>
+                                    <option value="HR">HR</option>
+                                    <option value="Keuangan">Keuangan</option>
+                                    <option value="Marketing">Marketing</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Divisi</label>
+                                <input type="text" class="form-control" id="editEmployeeDivision" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Jabatan</label>
+                                <select class="form-select" id="editEmployeePosition" required>
+                                    <option value="">Pilih Jabatan</option>
+                                    <option value="Magang Project">Intern Project</option>
+                                    <option value="Magang Regular">Intern Regular</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" id="saveEditEmployeeBtn">Simpan Perubahan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="karyawan.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -214,7 +214,6 @@ async function fetchAttendances() {
 }
 
 
-
 // Definisikan fungsi delete
 function deleteEmployee(uid) {
   if (confirm("Apakah kamu yakin ingin menghapus data ini?")) {

@@ -1,0 +1,38 @@
+body {
+    background-color: #f4f6f9;
+}
+
+.sidebar {
+    width: 325px;
+    background-color: white;
+    height: 100vh;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.nav-link {
+    color: #333;
+}
+
+.nav-link.active {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.table-responsive {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-toolbar {
+    margin-bottom: 20px;
+}
+
+#searchEmployee, #departmentFilter {
+    margin-bottom: 15px;
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Employee Management</h1>
+
+        <!-- Form Tambah Karyawan -->
+        <form id="addEmployeeForm" class="mb-4">
+            <h3>Tambah Karyawan</h3>
+            <div class="mb-3">
+                <label for="employeeName" class="form-label">Nama</label>
+                <input type="text" class="form-control" id="employeeName" required>
+            </div>
+            <div class="mb-3">
+                <label for="employeeEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="employeeEmail" required>
+            </div>
+            <div class="mb-3">
+                <label for="employeePassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="employeePassword" required>
+            </div>
+            <div class="mb-3">
+                <label for="employeeID" class="form-label">ID Karyawan</label>
+                <input type="text" class="form-control" id="employeeID" required>
+            </div>
+            <div class="mb-3">
+                <label for="employeePhone" class="form-label">Telepon</label>
+                <input type="text" class="form-control" id="employeePhone" required>
+            </div>
+            <div class="mb-3">
+                <label for="employeeDepartement" class="form-label">Departemen</label>
+                <input type="text" class="form-control" id="employeeDepartement" required>
+            </div>
+            <div class="mb-3">
+                <label for="employeeDivision" class="form-label">Divisi</label>
+                <input type="text" class="form-control" id="employeeDivision" required>
+            </div>
+            <div class="mb-3">
+                <label for="employeePosition" class="form-label">Jabatan</label>
+                <input type="text" class="form-control" id="employeePosition" required>
+            </div>
+            <div class="mb-3">
+                <label for="employeeOffice" class="form-label">Kantor</label>
+                <input type="text" class="form-control" id="employeeOffice" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Tambah Karyawan</button>
+        </form>
+
+        <!-- Tabel Data Karyawan -->
+        <h3>Data Karyawan</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>Departemen</th>
+                    <th>Divisi</th>
+                    <th>Jabatan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="employeeTableBody">
+                <!-- Data akan dimuat di sini -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal Edit Karyawan -->
+    <div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEmployeeModalLabel">Edit Karyawan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editEmployeeForm">
+                        <div class="mb-3">
+                            <label for="editEmployeeName" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="editEmployeeName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editEmployeePhone" class="form-label">Telepon</label>
+                            <input type="text" class="form-control" id="editEmployeePhone" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editEmployeeDepartment" class="form-label">Departemen</label>
+                            <input type="text" class="form-control" id="editEmployeeDepartment" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editEmployeeDivision" class="form-label">Divisi</label>
+                            <input type="text" class="form-control" id="editEmployeeDivision" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editEmployeePosition" class="form-label">Jabatan</label>
+                            <input type="text" class="form-control" id="editEmployeePosition" required>
+                        </div>
+                        <button type="button" id="saveEditEmployeeBtn" class="btn btn-primary">Simpan Perubahan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="karyawan.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
