@@ -1,125 +1,121 @@
     import {auth,onAuthStateChanged,db,collection,getDocs,query,where,Timestamp,doc,getDoc,} from "./firebase-config.js";
 
     async function fetchAttendances() {
+        const loadingSpinner = document.getElementById("loadingSpinner");
+        const tableBody = document.getElementById("attendanceTableBody");
+    
+        // Tampilkan spinner dan kosongkan tabel saat proses dimulai
+        loadingSpinner.style.display = "block";
+        tableBody.innerHTML = "";
+    
         try {
             const querySnapshot = await getDocs(collection(db, "attendance"));
             const queryEmployee = await getDocs(collection(db, "employees"));
-            const attendanceMap = {}; // Objek untuk menyimpan absensi terakhir per karyawan
-            const employeeData = [];  // Array untuk menyimpan data karyawan
-
+            const attendanceMap = {};
+            const employeeData = [];
+    
             let hadirCount = 0;
             let izinCount = 0;
             let telatCount = 0;
             let sakitCount = 0;
             let alphaCount = 0;
-            
-        // Ambil tanggal hari ini (tanpa waktu) untuk perbandingan
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
     
-        // Ambil data absensi
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const attendanceDate = data.checkin.toDate();
-            attendanceDate.setHours(0, 0, 0, 0);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
     
-            // Hanya pertimbangkan absensi untuk hari ini
-            if (attendanceDate.getTime() === today.getTime()) {
-            const uid = data.uid;
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const attendanceDate = data.checkin.toDate();
+                attendanceDate.setHours(0, 0, 0, 0);
     
-            // Jika sudah ada absensi untuk karyawan ini, bandingkan timestamp
-            if (!attendanceMap[uid] || data.checkin.seconds > attendanceMap[uid].checkin.seconds) {
-                attendanceMap[uid] = data;
-            }
-            }
-        });
+                if (attendanceDate.getTime() === today.getTime()) {
+                    const uid = data.uid;
     
-        // Ambil data karyawan
-        queryEmployee.forEach((doc) => {
-            const data = doc.data();
-            const uid = doc.id;
-    
-            // Default status 'Alpha' (belum hadir)
-            const employee = {
-            uid: uid,
-            employee_name: data.name,
-            employee_id: data.employeeID || 'Tidak Diketahui',
-            status: 'Alpha',
-            formattedDate: '-',
-            formattedClockIn: '-',
-            formattedClockOut: '-',
-            location: '-',
-            keterangan: 'Belum Hadir',
-            departement: data.departement || 'Tidak Diketahui',
-            division: data.division || 'Tidak Diketahui',
-            };
-    
-            // Jika karyawan sudah absen, update statusnya
-            const attendance = attendanceMap[employee.uid];
-            if (attendance) {
-            let qrCodeData = {};
-            
-            // Parse QR code data dengan penanganan error
-            try {
-                if (attendance.qr_code && attendance.qr_code !== "-") {
-                qrCodeData = JSON.parse(attendance.qr_code.trim());
+                    if (!attendanceMap[uid] || data.checkin.seconds > attendanceMap[uid].checkin.seconds) {
+                        attendanceMap[uid] = data;
+                    }
                 }
-            } catch (error) {
-                console.error("Error parsing QR code data:", error);
-            }
+            });
     
-            // Set formatted date and clock
-            employee.formattedDate = attendance.checkin.toDate().toLocaleDateString();
-            employee.formattedClockIn = attendance.checkin.toDate().toLocaleTimeString();
+            queryEmployee.forEach((doc) => {
+                const data = doc.data();
+                const uid = doc.id;
     
-            if (attendance.checkout) {
-                employee.formattedClockOut = attendance.checkout.toDate().toLocaleTimeString();
-            }
+                const employee = {
+                    uid: uid,
+                    employee_name: data.name,
+                    employee_id: data.employeeID || "Tidak Diketahui",
+                    status: "Alpha",
+                    formattedDate: "-",
+                    formattedClockIn: "-",
+                    formattedClockOut: "-",
+                    location: "-",
+                    keterangan: "Belum Hadir",
+                    departement: data.departement || "Tidak Diketahui",
+                    division: data.division || "Tidak Diketahui",
+                };
     
-            // Update location and keterangan
-            employee.location = qrCodeData.location || 'Tidak Hadir';
-            employee.keterangan = attendance.status;
+                const attendance = attendanceMap[employee.uid];
+                if (attendance) {
+                    let qrCodeData = {};
+                    try {
+                        if (attendance.qr_code && attendance.qr_code !== "-") {
+                            qrCodeData = JSON.parse(attendance.qr_code.trim());
+                        }
+                    } catch (error) {
+                        console.error("Error parsing QR code data:", error);
+                    }
     
-            // Hitung status kehadiran
-            switch (attendance.status) {
-                case 'Izin':
-                employee.status = 'Izin';
-                izinCount++;
-                break;
-                case 'Telat':
-                employee.status = 'Telat';
-                telatCount++;
-                break;
-                case 'Sakit':
-                employee.status = 'Sakit';
-                sakitCount++;
-                break;
-                default:
-                employee.status = 'Hadir';
-                hadirCount++;
-            }
-            } else {
-            // Jika tidak ada data absensi untuk karyawan, status tetap 'Alpha'
-            alphaCount++;
-            }
+                    employee.formattedDate = attendance.checkin.toDate().toLocaleDateString();
+                    employee.formattedClockIn = attendance.checkin.toDate().toLocaleTimeString();
     
-            employeeData.push(employee);
-        });
+                    if (attendance.checkout) {
+                        employee.formattedClockOut = attendance.checkout.toDate().toLocaleTimeString();
+                    }
     
-        // Render tabel dan update summary
-        renderAttendanceTable(employeeData);
-        updateAttendanceSummary({
-            hadir: hadirCount,
-            izin: izinCount,
-            telat: telatCount,
-            sakit: sakitCount,
-            alpha: alphaCount
-        });
+                    employee.location = qrCodeData.location || "Tidak Hadir";
+                    employee.keterangan = attendance.status;
     
+                    switch (attendance.status) {
+                        case "Izin":
+                            employee.status = "Izin";
+                            izinCount++;
+                            break;
+                        case "Telat":
+                            employee.status = "Telat";
+                            telatCount++;
+                            break;
+                        case "Sakit":
+                            employee.status = "Sakit";
+                            sakitCount++;
+                            break;
+                        default:
+                            employee.status = "Hadir";
+                            hadirCount++;
+                    }
+                } else {
+                    alphaCount++;
+                }
+    
+                employeeData.push(employee);
+            });
+    
+            renderAttendanceTable(employeeData);
+            updateAttendanceSummary({
+                hadir: hadirCount,
+                izin: izinCount,
+                telat: telatCount,
+                sakit: sakitCount,
+                alpha: alphaCount,
+            });
         } catch (error) {
-        console.error("Error fetching attendances:", error);
+            console.error("Error fetching attendances:", error);
+        } finally {
+            // Sembunyikan spinner setelah proses selesai
+            loadingSpinner.style.display = "none";
         }
     }
+    
     
     function renderAttendanceTable(data) {
         const tableBody = document.getElementById("attendanceTableBody");
@@ -156,7 +152,7 @@
             fetchAttendances();
         } else {
             // Pengguna belum login, redirect ke halaman login
-            window.location.href = "/login.html";
+            window.location.href = "/public/login.html";
         }
         });
     });

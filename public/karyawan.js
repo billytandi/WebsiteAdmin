@@ -53,6 +53,13 @@ document.getElementById("submit").addEventListener("click", async () => {
 
 // Fungsi Fetch Data Karyawan
 async function fetchEmployees() {
+        const loadingSpinner = document.getElementById("loadingSpinner");
+        const tableBody = document.getElementById("employeeTableBody");
+    
+        // Tampilkan spinner dan kosongkan tabel saat proses dimulai
+        loadingSpinner.style.display = "block";
+        tableBody.innerHTML = "";
+        
     try {
         const querySnapshot = await getDocs(collection(db, "employees"));
         const employeeTableBody = document.getElementById("employeeTableBody");
@@ -138,6 +145,9 @@ document.getElementById('departmentFilter').addEventListener('change', () => {
     } catch (error) {
         console.error("Error mengambil data karyawan:", error);
         alert("Gagal memuat data karyawan.");
+    } finally {
+        // Sembunyikan spinner setelah proses selesai
+        loadingSpinner.style.display = "none";
     }
 }
 

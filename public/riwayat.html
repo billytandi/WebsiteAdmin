@@ -31,11 +31,6 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="cuti.html">
-                                <i class="fas fa-calendar-alt"></i> Cuti
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="#" id="logoutBtn">
                                 <i class="fas fa-sign-out-alt"></i> Logout
                             </a>
@@ -46,33 +41,32 @@
 
             <!-- Main Content -->
             <main class="col-md-10 ms-sm-auto px-4">
-                <!-- Header -->
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Riwayat Kehadiran</h1>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        <button type="button" class="btn btn-success" id="downloadReportBtn">
-                            <i class="fas fa-download"></i> Download Laporan
-                        </button>
-                    </div>
                 </div>
-            
+
                 <!-- Filter Section -->
                 <div class="card mb-4">
                     <div class="card-body">
                         <form id="filterForm" class="row g-3">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label for="startDate" class="form-label">Periode</label>
-                                <input type="date" class="form-control" id="startDate" required>
+                                <input type="date" class="form-control" id="startDate">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label for="endDate" class="form-label">s/d</label>
-                                <input type="date" class="form-control" id="endDate" required>
+                                <input type="date" class="form-control" id="endDate">
                             </div>
                             <div class="col-md-3">
-                                <label for="departmentFilter" class="form-label">Departemen</label>
-                                <select id="departmentFilter" class="form-select">
+                                <label for="positionFilter" class="form-label">Posisi</label>
+                                <select id="positionFilter" class="form-select">
+                                    <option value="">Semua Posisi</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="departementFilter" class="form-label">Departemen</label>
+                                <select id="departementFilter" class="form-select">
                                     <option value="">Semua Departemen</option>
-                                    <!-- Data departemen akan diisi dinamis -->
                                 </select>
                             </div>
                             <div class="col-md-3 align-self-end">
@@ -80,45 +74,88 @@
                                     <i class="fas fa-filter"></i> Terapkan Filter
                                 </button>
                             </div>
+                            <div class="col-md-2 align-self-end">
+                                <button type="button" class="btn btn-secondary w-100" id="resetFilterBtn">
+                                    <i class="fas fa-undo"></i> Reset Filter
+                                </button>
+                            </div>
+                        </form>
+                   <br>
+                        <form id="filterForm" class="row g-3">
+                            <div class="col-md-2">
+                                <label for="reportMonth" class="form-label">Bulan:</label>
+                                <select id="reportMonth" class="form-select">
+                                    <option value="0">Januari</option>
+                                    <option value="1">Februari</option>
+                                    <option value="2">Maret</option>
+                                    <option value="3">April</option>
+                                    <option value="4">Mei</option>
+                                    <option value="5">Juni</option>
+                                    <option value="6">Juli</option>
+                                    <option value="7">Agustus</option>
+                                    <option value="8">September</option>
+                                    <option value="9">Oktober</option>
+                                    <option value="10">November</option>
+                                    <option value="11">Desember</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="reportYear" class="form-label">Bulan:</label>
+                                <select id="reportYear" class="form-select">
+                                    <option value="0">2024</option>                                        
+                                </select>
+                                </div>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <button type="button" class="btn btn-success" id="downloadReportBtn">
+                                    <i class="fas fa-download"></i> Download Laporan
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
-            
-                <!-- Tabel Riwayat Kehadiran -->
+
+                <!-- Attendance Table -->
                 <div class="table-responsive">
+                    <div>
+                        <label for="rowsPerPage">Baris per Halaman:</label>
+                        <select id="rowsPerPage">
+                            <option value="20">20</option>
+                            <option value="40">40</option>
+                            <option value="80">80</option>
+                        </select>
+                    </div>
                     <table class="table table-bordered table-hover align-middle">
                         <thead class="table-light">
                             <tr>
                                 <th>No</th>
                                 <th>Tanggal</th>
                                 <th>Nama</th>
+                                <th>Status Pekerja</th>
                                 <th>Departemen</th>
-                                <th>Cabang</th>
-                                <th>Kode</th>
                                 <th>Absensi Masuk</th>
                                 <th>Absensi Pulang</th>
                             </tr>
                         </thead>
                         <tbody id="attendanceTableBody">
-                            <!-- Data absensi akan diisi secara dinamis -->
+                            <!-- Dynamic Attendance Data -->
                         </tbody>
                     </table>
+                    <div id="paginationControls"></div>
                 </div>
-            
-                <!-- Pagination -->
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-end">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
+
+                <!-- Loading Spinner -->
+                <div id="loadingSpinner" class="text-center my-4" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                
             </main>
-            
+        </div>
+    </div>
 
     <script type="module" src="riwayat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
