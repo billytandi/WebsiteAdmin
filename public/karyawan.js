@@ -19,7 +19,7 @@ document.getElementById("submit").addEventListener("click", async () => {
     const office = document.getElementById("employeeOffice").value;
 
     try {
-        // Buat akun di Firebase Authentication
+        // Buat akun di Firebase Authen tication
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
@@ -82,6 +82,10 @@ async function fetchEmployees() {
                             <button class="btn btn-sm btn-warning edit-employee" data-uid="${doc.id}">
                                 Edit
                             </button>
+                        </div>
+                    </td>
+                    <td> 
+                        <div class="btn-group" role="group">
                             <button class="btn btn-sm btn-danger delete-employee" data-uid="${doc.id}">
                                 Hapus
                             </button>
@@ -218,15 +222,6 @@ async function deleteEmployee(uid) {
     }
 }
 
-// Logout Functionality
-document.getElementById("logoutBtn").addEventListener("click", async () => {
-    try {
-        await signOut(auth);
-        window.location.href = "index.html";
-    } catch (error) {
-        console.error("Error logging out:", error);
-    }
-});
 
 // Filter Karyawan
 window.addEventListener('keyup', (e) => {
@@ -252,9 +247,19 @@ window.addEventListener('keyup', (e) => {
 document.addEventListener("DOMContentLoaded", () => {
     auth.onAuthStateChanged((user) => {
         if (!user) {
-            window.location.href = "index.html";
+            window.location.href = "login.html";
         } else {
             fetchEmployees();
         }
     });
+});
+
+// Logout Functionality
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+    try {
+        await signOut(auth);
+        window.location.href = "login.html";
+    } catch (error) {
+        console.error("Error logging out:", error);
+    }
 });

@@ -1,4 +1,4 @@
-    import { db } from './firebase-config.js';
+    import { db,signOut, auth} from './firebase-config.js';
     import { collection, query, where, getDocs, getDoc, doc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
     // Ganti import XLSX
     import * as XLSX from 'https://cdn.jsdelivr.net/npm/xlsx/+esm';
@@ -163,175 +163,201 @@
     });
 
 
-    async function downloadMonthlyReport() {
-        const month = parseInt(document.getElementById("reportMonth").value, 10) + 1;
-        const year = new Date().getFullYear(); // Gunakan tahun saat ini
-    
-        if (isNaN(month)) {
-            alert("Silakan pilih bulan dengan benar.");
-            return;
-        }
-    
-        // Buat loading spinner
-        let loadingSpinner = null;
-    
-        try {
-            // Buat loading spinner
-            loadingSpinner = document.createElement('div');
-            loadingSpinner.id = 'reportLoadingSpinner';
-            loadingSpinner.innerHTML = `
-                <div class="modal fade show" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5); z-index: 9999;">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-body text-center">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <p class="mt-2">Sedang membuat laporan...</p>
-                                <small>Harap tunggu, sedang memproses laporan untuk semua karyawan</small>
+async function downloadMonthlyReport() {
+    const month = parseInt(document.getElementById("reportMonth").value, 10) + 1;
+    const year = new Date().getFullYear();
+
+    if (isNaN(month)) {
+        alert("Silakan pilih bulan dengan benar.");
+        return;
+    }
+
+    let loadingSpinner = null;
+
+    try {
+        loadingSpinner = document.createElement('div');
+        loadingSpinner.id = 'reportLoadingSpinner';
+        loadingSpinner.innerHTML = `
+            <div class="modal fade show" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5); z-index: 9999;">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
                             </div>
+                            <p class="mt-2">Sedang membuat laporan...</p>
+                            <small>Harap tunggu, sedang memproses laporan untuk semua karyawan</small>
                         </div>
                     </div>
                 </div>
-            `;
-            document.body.appendChild(loadingSpinner);
-    
-            // Buat tanggal awal dan akhir dengan benar
-            const startDate = new Date(year, month - 1, 1, 0, 0, 0);
-            const endDate = new Date(year, month, 0, 23, 59, 59);
-    
-            console.log("Rentang tanggal:", startDate, endDate);
-    
-            // Buat workbook utama untuk semua data
-            const summaryWorkbook = XLSX.utils.book_new();
-    
-            // Ambil semua karyawan
-            const employeesSnapshot = await getDocs(collection(db, 'employees'));
-    
-            // Siapkan data untuk sheet ringkasan
-            const summaryData = [
-                ["Laporan Absensi", `Bulan ${month}/${year}`],
-                ["Total Karyawan", employeesSnapshot.size],
-                [],
-                ["Nama", "Departemen", "Total Hadir", "Total Izin", "Total Sakit", "Total Telat"]
-            ];
-    
-            // Proses setiap karyawan
-            const reportPromises = employeesSnapshot.docs.map(async (employeeDoc) => {
-                const employee = { 
-                    id: employeeDoc.id, 
-                    ...employeeDoc.data() 
-                };
-    
-                // Query absensi untuk karyawan ini di bulan tertentu
-                const employeeAttendanceQuery = query(
-                    collection(db, 'attendance'),
-                    where('uid', '==', employee.id),
-                    where('checkin', '>=', startDate),
-                    where('checkin', '<=', endDate)
-                );
-    
-                const attendanceSnapshot = await getDocs(employeeAttendanceQuery);
-    
-                // Hitung statistik kehadiran
-                const employeeAttendance = attendanceSnapshot.docs.map(doc => doc.data());
-                
-                const statusCounts = {
-                    hadir: employeeAttendance.filter(a => a.status === 'Hadir').length,
-                    izin: employeeAttendance.filter(a => a.status === 'Izin' || a.status === 'Permit').length,
-                    sakit: employeeAttendance.filter(a => a.status === 'Sakit' || a.status === 'Sick').length,
-                    telat: employeeAttendance.filter(a => a.status === 'Late' || a.status === 'Telat').length,
-                };
-                
-    
-                // Tambahkan data ke ringkasan
-                summaryData.push([
-                    employee.name, 
-                    employee.departement || '-', 
-                    statusCounts.hadir, 
-                    statusCounts.izin, 
-                    statusCounts.sakit, 
-                ]);
-    
-                // Siapkan data untuk sheet per karyawan
-                const excelData = [
-                    ["Nama Lengkap", employee.name],
-                    ["Departemen", employee.departement],
-                    ["Posisi", employee.position],
-                    ["Bulan", `${month}/${year}`],
-                    [],
-                    ["Tanggal", "Check-in", "Check-out", "Status"]
-                ];
-    
-                // Tambahkan detail absensi
-                employeeAttendance.forEach(attendance => {
-                    excelData.push([
-                        attendance.checkin 
-                            ? new Date(attendance.checkin.seconds * 1000).toLocaleDateString('id-ID') 
-                            : "-",
-                        attendance.checkin 
-                            ? new Date(attendance.checkin.seconds * 1000).toLocaleTimeString('id-ID') 
-                            : "-",
-                        attendance.checkout 
-                            ? new Date(attendance.checkout.seconds * 1000).toLocaleTimeString('id-ID') 
-                            : "-",
-                        attendance.status || "-"
-                    ]);
-                });
-    
-                // Tambahkan ringkasan statistik
-                excelData.push(
-                    [],
-                    ["Total Hari Kerja", employeeAttendance.length],
-                    ["Hari Hadir", statusCounts.hadir],
-                    ["Hari Izin", statusCounts.izin],
-                    ["Hari Sakit", statusCounts.sakit],
-                    ["Hari Telat", statusCounts.telat],
+            </div>
+        `;
+        document.body.appendChild(loadingSpinner);
 
-                );
-    
-                // Tambahkan sheet ke workbook utama
-                const ws = XLSX.utils.aoa_to_sheet(excelData);
-                XLSX.utils.book_append_sheet(summaryWorkbook, ws, `Laporan_${employee.name.replace(/\s+/g, '_')}`);
+        const startDate = new Date(year, month - 1, 1, 0, 0, 0);
+        const endDate = new Date(year, month, 0, 23, 59, 59);
+
+        const summaryWorkbook = XLSX.utils.book_new();
+
+        const employeesSnapshot = await getDocs(collection(db, 'employees'));
+
+        const summaryData = [
+            ["Laporan Absensi", `Bulan ${month}/${year}`],
+            ["Total Karyawan", employeesSnapshot.size],
+            [],
+            ["Nama", "Departemen", "Total Hadir", "Total Telat", "Total Izin", "Total Sakit", "Total Alpha", "Gaji"],        
+        ];
+
+        let totalSalary = 0; // Variabel untuk total gaji
+
+        const reportPromises = employeesSnapshot.docs.map(async (employeeDoc) => {
+            const employee = {
+                id: employeeDoc.id,
+                ...employeeDoc.data()
+            };
+
+            const employeeAttendanceQuery = query(
+                collection(db, 'attendance'),
+                where('uid', '==', employee.id),
+                where('checkin', '>=', startDate),
+                where('checkin', '<=', endDate)
+            );
+
+            const attendanceSnapshot = await getDocs(employeeAttendanceQuery);
+
+            const employeeAttendance = attendanceSnapshot.docs.map(doc => doc.data());
+
+            const statusCounts = {
+                hadir: employeeAttendance.filter(a => a.status === 'Hadir').length,
+                telat: employeeAttendance.filter(a => a.status === 'Telat' || a.status === 'Late').length,
+                izin: employeeAttendance.filter(a => a.status === 'Izin' || a.status === 'Permit').length,
+                sakit: employeeAttendance.filter(a => a.status === 'Sakit' || a.status === 'Sick').length,
+                alpha: employeeAttendance.filter(a => !['Hadir', 'Telat', 'Late', 'Izin', 'Permit', 'Sakit', 'Sick'].includes(a.status)).length
+            };
+
+            const totalPresent = statusCounts.hadir + statusCounts.telat;
+            const attendancePercentage = (totalPresent / 25) * 100;
+
+            let salary = 0;
+            if (attendancePercentage >= 70) {
+                salary = 1500000;
+            } else {
+                salary = Math.round((1500000 / 25) * totalPresent);
+            }
+
+            totalSalary += salary;
+
+            summaryData.push([
+                employee.name,
+                employee.departement || '-',
+                statusCounts.hadir,
+                statusCounts.telat,
+                statusCounts.izin,
+                statusCounts.sakit,
+                statusCounts.alpha,
+                `Rp ${salary.toLocaleString('id-ID')}`,
+            ]);
+
+            const excelData = [
+                ["Nama Lengkap", employee.name],
+                ["Departemen", employee.departement],
+                ["Posisi", employee.position],
+                ["Bulan", `${month}/${year}`],
+                [],
+                ["Tanggal", "Check-in", "Check-out", "Status"]
+            ];
+
+            employeeAttendance.forEach(attendance => {
+                excelData.push([
+                    attendance.checkin
+                        ? new Date(attendance.checkin.seconds * 1000).toLocaleDateString('id-ID')
+                        : "-",
+                    attendance.checkin
+                        ? new Date(attendance.checkin.seconds * 1000).toLocaleTimeString('id-ID')
+                        : "-",
+                    attendance.checkout
+                        ? new Date(attendance.checkout.seconds * 1000).toLocaleTimeString('id-ID')
+                        : "-",
+                    attendance.status || "-"
+                ]);
             });
-    
-            // Tunggu semua proses selesai
-            await Promise.all(reportPromises);
-    
-            // Tambahkan sheet ringkasan ke workbook utama
-            const summaryWorksheet = XLSX.utils.aoa_to_sheet(summaryData);
-            XLSX.utils.book_append_sheet(summaryWorkbook, summaryWorksheet, `Ringkasan_Absensi`);
-    
-            // Simpan file workbook
-            const summaryFileName = `Laporan_Absensi_${month}_${year}.xlsx`;
-            XLSX.writeFile(summaryWorkbook, summaryFileName);
-    
-            // Hapus loading spinner
-            if (loadingSpinner && loadingSpinner.parentNode) {
-                loadingSpinner.parentNode.removeChild(loadingSpinner);
-            }
-            
-            alert("Laporan berhasil dibuat!");
-    
-        } catch (error) {
-            // Hapus loading spinner jika ada error
-            if (loadingSpinner) {
-                try {
-                    if (loadingSpinner.parentNode) {
-                        loadingSpinner.parentNode.removeChild(loadingSpinner);
-                    }
-                } catch (removeError) {
-                    console.error("Error removing spinner:", removeError);
-                }
-            }
-            
-            console.error("Error generating reports:", error);
-            alert("Gagal membuat laporan. Silakan coba lagi.");
+
+            excelData.push(
+                [],
+                ["Total Hari Kerja", employeeAttendance.length],
+                ["Hari Hadir", statusCounts.hadir],
+                ["Hari Telat", statusCounts.telat],
+                ["Hari Izin", statusCounts.izin],
+                ["Hari Sakit", statusCounts.sakit],
+                ["Hari Alpha", statusCounts.alpha],
+                ["Gaji", `Rp ${salary.toLocaleString('id-ID')}`]
+            );
+
+            const ws = XLSX.utils.aoa_to_sheet(excelData);
+            XLSX.utils.book_append_sheet(summaryWorkbook, ws, `Laporan_${employee.name.replace(/\s+/g, '_')}`);
+        });
+
+        await Promise.all(reportPromises);
+
+
+        summaryData.push([], ["Total Gaji", totalSalary.toFixed(2)]); // Baris baru untuk total gaji
+        const summaryWorksheet = XLSX.utils.aoa_to_sheet(summaryData);
+        XLSX.utils.book_append_sheet(summaryWorkbook, summaryWorksheet, `Ringkasan_Absensi_${month}_${year}`);
+
+        const summaryFileName = `Laporan_Absensi_${month}_${year}.xlsx`;
+        XLSX.writeFile(summaryWorkbook, summaryFileName);
+
+        if (loadingSpinner && loadingSpinner.parentNode) {
+            loadingSpinner.parentNode.removeChild(loadingSpinner);
         }
+
+        alert("Laporan berhasil dibuat!");
+
+    } catch (error) {
+        if (loadingSpinner && loadingSpinner.parentNode) {
+            loadingSpinner.parentNode.removeChild(loadingSpinner);
+        }
+        console.error("Error generating reports:", error);
+        alert("Gagal membuat laporan. Silakan coba lagi.");
     }
-    
+}
+
+function calculateWorkingDays(startDate, endDate) {
+    let workDays = 0;
+    const day = new Date(startDate);
+    while (day <= endDate) {
+        const weekDay = day.getDay();
+        if (weekDay !== 0) {
+            workDays++; // Bukan Minggu
+        }
+        day.setDate(day.getDate() + 1);
+    }
+    return workDays;
+}
+
 
     document.getElementById("downloadReportBtn").addEventListener("click", downloadMonthlyReport);
     document.getElementById("resetFilterBtn").addEventListener("click", resetFilters);
     populateFilters();
     fetchAttendanceData();
+
+    // Inisialisasi Fetch Data saat Halaman Dimuat
+document.addEventListener("DOMContentLoaded", () => {
+    auth.onAuthStateChanged((user) => {
+        if (!user) {
+            window.location.href = "login.html";
+        } else {
+            fetchAttendanceData();
+        }
+    });
+});
+
+// Logout Functionality
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+    try {
+        await signOut(auth);
+        window.location.href = "login.html";
+    } catch (error) {
+        console.error("Error logging out:", error);
+    }
+});

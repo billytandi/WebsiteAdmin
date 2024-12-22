@@ -1,3 +1,5 @@
+//firebase-config.js
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-analytics.js";
 import { 
@@ -18,7 +20,8 @@ import {
     getAuth, 
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    onAuthStateChanged 
+    onAuthStateChanged,
+    signOut
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
 // Konfigurasi Firebase
@@ -54,7 +57,8 @@ export {
     timestamp,
     Timestamp,
     createUserWithEmailAndPassword,
-    onAuthStateChanged
+    onAuthStateChanged,
+    signOut
 };
 function authMiddleware(requiredRole = null) {
     return new Promise((resolve, reject) => {
@@ -93,4 +97,3 @@ function authMiddleware(requiredRole = null) {
         });
     });
 }
-

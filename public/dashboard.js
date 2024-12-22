@@ -1,5 +1,18 @@
     import {auth,onAuthStateChanged,db,collection,getDocs,query,where,Timestamp,doc,getDoc,} from "./firebase-config.js";
 
+// Cek autentikasi sebelum memuat halaman
+// document.addEventListener('DOMContentLoaded', () => {
+//     onAuthStateChanged(auth, async (user) => {
+//       if (!user) {
+//         window.location.href = 'login.html';
+//       } else {
+//           console.error('Data admin tidak ditemukan');
+//         }
+//       // Lanjutkan memuat halaman
+//       fetchAttendances();
+//     });
+//   });
+  
     async function fetchAttendances() {
         const loadingSpinner = document.getElementById("loadingSpinner");
         const tableBody = document.getElementById("attendanceTableBody");
@@ -24,7 +37,7 @@
             today.setHours(0, 0, 0, 0);
     
             querySnapshot.forEach((doc) => {
-                const data = doc.data();
+                const data = doc.data ();
                 const attendanceDate = data.checkin.toDate();
                 attendanceDate.setHours(0, 0, 0, 0);
     
@@ -156,3 +169,13 @@
         }
         });
     });
+
+    // Fungsi logout
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+    try {
+      await auth.signOut();
+      window.location.href = 'login.html';
+    } catch (error) {
+      console.error('Gagal logout:', error);
+    }
+  });
