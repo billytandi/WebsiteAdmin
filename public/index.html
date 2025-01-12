@@ -1,161 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Admin Absensi</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Attendance App</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .logo {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
-
 <body>
-  <!-- Dashboard Page -->
-  <div id="dashboard" style="margin-right: 10%;margin-left: 10%;margin-top: 50px;">
-    <h1>Dashboard Kehadiran</h1>
-    <div class="widgets" style="width: 800px;margin: auto;">
-      <div class="widget" id="hadir">Hadir: <span id="hadirCount">0</span></div>
-      <div class="widget" id="izin">Izin: <span id="izinCount">0</span></div>
-      <div class="widget" id="telat">Telat: <span id="telatCount">0</span></div>
-      <div class="widget" id="sakit">Sakit: <span id="sakitCount">0</span></div>
-      <div class="widget" id="alpha">Alpha: <span id="alphaCount">0</span></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="login-container text-center">
+                    <img src="../Logospil.png" alt="Company Logo" class="logo">
+                    
+                    <form id="loginForm">
+                        <div class="mb-3" style="text-align: left;">
+                            <label for="email" class="form-label">Email</label>
+                            <input 
+                                type="email" 
+                                class="form-control" 
+                                id="email" 
+                                placeholder="Masukkan email" 
+                                required
+                            >
+                            <div class="invalid-feedback">Email tidak valid</div>
+                        </div>
+                        
+                        <div class="mb-3" style="text-align: left;">
+                            <label for="password" class="form-label">Password</label>
+                            <input 
+                                type="password" 
+                                class="form-control" 
+                                id="password" 
+                                placeholder="Masukkan password" 
+                                required
+                            >
+                            <div class="invalid-feedback">Password salah</div>
+                        </div>
+                        
+                        <div id="loginError" class="text-danger mb-3"></div>
+                        
+                        <button 
+                            type="submit" 
+                            class="btn btn-primary w-100"
+                        >
+                            Login
+                        </button>
+                    </form>
+                    
+                
+                </div>
+            </div>
+        </div>
     </div>
-    <br>
-    <h2 style="text-align: center;">Daftar Kehadiran Hari Ini</h2>
-    <input type="text" id="filterPresent" placeholder="Filter Nama">
-    <table id="attendanceTable">
-      <thead>
-        <tr>
-          <th>ID Karyawan</th>
-          <th>Nama</th>
-          <th>Tanggal</th>
-          <th>Jam Absen</th>
-          <th>Lokasi Absen</th>
-          <th>Keterangan</th>
-          <th>Departemen</th>
-          <th>Divisi</th>
-        </tr>
-      </thead>
-      <tbody id="attendanceData"></tbody>
-    </table>
-  </div>
 
-  <!-- Data Karyawan Page -->
-  <div id="dataKaryawan" style="margin-right: 10%;margin-left: 10%;margin-top: 50px;">
-    <h1>Data Karyawan</h1>
-    <button id="addEmployeeBtn">Tambah Data</button>
-    <br></br>
-    <input type="text" id="filterName" placeholder="Filter Nama">
-
-    <table id="employeeTable">
-      <thead>
-        <tr>
-          <th>ID Karyawan</th>
-          <th>Nama</th>
-          <th>Email</th>
-          <th>No. Telpon</th>
-          <th>Departemen</th>
-          <th>Divisi</th>
-          <th>Jabatan</th>
-          <th>Lokasi Kantor</th>
-        </tr>
-      </thead>
-      <tbody id="employeeData"></tbody>
-    </table>
-  </div>
-
-  <!-- Pop-up Form Tambah Karyawan -->
-  <div id="addEmployeeForm" style="width: 40%;">
-    <span class="close">&times;</span>
-    <h2 style="margin-left: 5%;">Tambah Karyawan Baru</h2>
-    <form id="employeeForm" style="margin-left: 5%;">
-
-      <!-- Nama Lengkap -->
-      <div class="form-group row">
-        <label for="inputName" class="col-sm-2 col-form-label">Nama Lengkap</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="employeeName" placeholder="Nama Lengkap" required>
-        </div>
-      </div>
-      <!-- Email -->
-      <div class="form-group row">
-        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-        <div class="col-sm-10">
-          <input type="email" class="form-control" id="employeeEmail" placeholder="example@gmail.com" required>
-        </div>
-      </div>
-      <!-- Password -->
-      <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-        <div class="col-sm-10">
-          <input type="password" class="form-control" id="employeePassword" placeholder="Password" required>
-        </div>
-      </div>
-      <!-- ID Karyawan -->
-      <div class="form-group row">
-        <label for="inputID" class="col-sm-2 col-form-label">ID Karyawan</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="employeeID" placeholder="ID Karyawan" required>
-        </div>
-      </div>
-
-      <!-- No. Telpon -->
-      <div class="form-group row">
-        <label for="inputPhone" class="col-sm-2 col-form-label">No. Telpon</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="employeePhone" placeholder="No. Telpon" required>
-        </div>
-      </div>
-
-      <!-- Departemen -->
-      <div class="form-group row">
-        <label for="inputDepartement" class="col-sm-2 col-form-label">Departemen</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="employeeDepartement" placeholder="Departemen" required>
-        </div>
-      </div>
-
-      <!-- Divisi -->
-      <div class="form-group row">
-        <label for="inputDivision" class="col-sm-2 col-form-label">Divisi</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="employeeDivision" placeholder="Divisi" required>
-        </div>
-      </div>
-
-      <!-- Position -->
-      <div class="form-group row">
-        <label for="inputPosition" class="col-sm-2 col-form-label">Jabatan</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="employeePosition" placeholder="Jabatan" required>
-        </div>
-      </div>
-
-      <!-- Lokasi Kantor -->
-      <div class="form-group row">
-        <label for="inputOffice" class="col-sm-2 col-form-label">Lokasi Kantor</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="employeeOffice" placeholder="Lokasi Kantor" required>
-        </div>
-      </div>
-
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-  </div>
-  </div>
-
-  <script type="module" src="script.js"></script>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Firebase Configuration -->
+    <script type="module" src="./firebase-config.js"></script>
+    
+    <!-- Login Script -->
+    <script type="module" src="login.js"></script>
 </body>
-
 </html>
