@@ -1,6 +1,5 @@
     import { db,signOut, auth} from './firebase-config.js';
     import { collection, query, where, getDocs, getDoc, doc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-    // Ganti import XLSX
     import * as XLSX from 'https://cdn.jsdelivr.net/npm/xlsx/+esm';
 
     // State untuk Pagination
