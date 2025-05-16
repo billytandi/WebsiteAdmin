@@ -76,7 +76,6 @@ async function fetchEmployees() {
                     <td>${employee.departement}</td>
                     <td>${employee.division}</td>
                     <td>${employee.position}</td>
-                    <td>${employee.office}</td>
                     <td>
                         <div class="btn-group" role="group">
                             <button class="btn btn-sm btn-warning edit-employee" data-uid="${doc.id}">
